@@ -9,7 +9,6 @@ public class GameManagement : MonoBehaviour
     public static GameManagement instance;
     [SerializeField] private GameObject gameOverUI;
     [SerializeField] private GameObject gameUI;
-    [SerializeField] private GameObject pauseUI;
 
 
     private bool isGamePaused = false;
@@ -88,37 +87,13 @@ public class GameManagement : MonoBehaviour
         {
             Time.timeScale = 0f;
             AudioListener.pause = true;
-            pauseUI.SetActive(true);
-
         }
         else
         {
             Time.timeScale = 1f;
             AudioListener.pause = false;
-            pauseUI.SetActive(false);
 
         }
-    }
-
-    public void Resume()
-    {
-        pauseUI.SetActive(false);
-        Time.timeScale = 1f;
-        AudioListener.pause = false;
-    }
-
-    public void Replay()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        Time.timeScale = 1f;
-        AudioListener.pause = false;
-    }
-
-    public void MainMenu()
-    {
-        SceneManager.LoadScene("Menu");
-        Time.timeScale = 1f;
-        AudioListener.pause = false;
     }
 
 }

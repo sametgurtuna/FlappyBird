@@ -1,28 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using TMPro;
 using UnityEngine;
 
-public class Reviving : MonoBehaviour
+public class BuyHeart : MonoBehaviour
 {
     [SerializeField] private int baseCost = 1000;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI costText;
-    
-
-    private const string CostKey = "Cost";
+    public AudioSource cashSound;
+    private Fly fly;
+    private const string CostKey = "HeartCost";
     private int cost;
 
-    public AudioSource cashSound;
-
-    private Fly fly;
-    void Start()
+    private void Start()
     {
         LoadCost();
 
         UpdateScoreText();
-
     }
 
     private bool CanAfford()
@@ -30,10 +25,13 @@ public class Reviving : MonoBehaviour
 
         return Score.instance.GetCurrentScore() >= cost;
     }
+
     private void DecreaseCoin()
     {
         Score.instance.DecreaseScore(cost);
     }
+
+
 
     private void UpdateScoreText()
     {
@@ -42,24 +40,22 @@ public class Reviving : MonoBehaviour
 
     private void IncreaseCost()
     {
-        cost = Mathf.RoundToInt(cost * 1.3f); costText.text = cost.ToString();
+        cost = Mathf.RoundToInt(cost * 1.2f); costText.text = cost.ToString();
         SaveCost();
     }
-
     private void SaveCost()
     {
         PlayerPrefs.SetInt(CostKey, cost);
         PlayerPrefs.Save();
     }
-   
 
     private void LoadCost()
     {
 
         if (PlayerPrefs.HasKey(CostKey))
         {
-            baseCost = PlayerPrefs.GetInt(CostKey);
-            costText.text = baseCost.ToString();
+            cost = PlayerPrefs.GetInt(CostKey);
+            costText.text = cost.ToString();
         }
         else
         {
@@ -67,7 +63,6 @@ public class Reviving : MonoBehaviour
             SaveCost();
         }
     }
-
     public void AddHeart()
     {
         if (CanAfford())
@@ -84,4 +79,5 @@ public class Reviving : MonoBehaviour
             Debug.Log("Yetersiz coin!");
         }
     }
+
 }
